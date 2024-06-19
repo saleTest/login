@@ -47,7 +47,7 @@ export async function authenticateToken(
     "/api/user/refresh",
     "/api/restaurant",
     "/api/top-restaurant",
-    /^\/api\/restaurant\/\d+$/,
+    /^\/api\/restaurant\/\w+$/,
   ];
 
   if (
@@ -63,24 +63,29 @@ export async function authenticateToken(
     return;
   }
   // console.log(req.body);
-
+  // console.log(req);
+  // console.log(req.headers);
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  console.log(token);
+  // console.log("Auth Header:", authHeader);
+  // console.log("Token:", token);
+  // console.log(user.name)
   if (token == null) {
-    console.log(token);
+    // console.log(token);
     return sendErrorResponse(res, 401, "NO_TOKEN");
   }
-
+  // console.log(process.env.ACCESS_TOKEN_SECRET);
   jwt.verify(
     token,
     process.env.ACCESS_TOKEN_SECRET as string,
     (err: any, user: any) => {
       if (err) {
+        console.log(user);
+        // console.log(res);
         return sendErrorResponse(res, 403, "INVALID_TOKEN");
       }
-      req.user = user.name;
-
+      req.user = user.email;
+      req.role = user.role;
       next();
     }
   );

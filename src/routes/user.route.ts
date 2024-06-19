@@ -17,3 +17,12 @@ UserRoute.post("/refresh", (req, res) => {
   const token = authHeader && authHeader.split(" ")[1];
   handleRequrest(res, UserService.refreshToken(token));
 });
+
+UserRoute.get("/:userId/roles", async (req, res) => {
+  try {
+    const roles = await UserService.getUserRoles(req.params.userId);
+    res.status(200).json({ roles });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});

@@ -6,6 +6,7 @@ import { UserRoute } from "./routes/user.route";
 import { authenticateToken } from "./utils";
 import mongoose from "mongoose";
 import RestaurantRoute from "./routes/restaurant.route";
+import BookingRoute from "./routes/booking.route";
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ configDotenv();
 app.use(authenticateToken);
 app.use("/api/restaurant", RestaurantRoute);
 app.use("/api/user", UserRoute);
+app.use("/api/booking", BookingRoute);
 
 app.get("*", (req, res) => {
   res.status(501).json({
