@@ -19,7 +19,7 @@ RestaurantRoute.get("/", async (req: Request, res: Response) => {
   }
 });
 // CREATE ruta - POST /api/restaurants
-RestaurantRoute.post("/restaurants", async (req: Request, res: Response) => {
+RestaurantRoute.post("/", async (req: Request, res: Response) => {
   try {
     const newRestaurantData: IRestaurant = req.body;
     const newRestaurant = await createRestaurant(newRestaurantData);
@@ -46,7 +46,7 @@ RestaurantRoute.get("/:id", async (req: Request, res: Response) => {
 });
 
 // UPDATE ruta - PUT /api/restaurants/:id
-RestaurantRoute.put("/restaurants/:id", async (req: Request, res: Response) => {
+RestaurantRoute.put("/:id", async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.id;
     const updatedData: Partial<IRestaurant> = req.body;
@@ -62,17 +62,14 @@ RestaurantRoute.put("/restaurants/:id", async (req: Request, res: Response) => {
 });
 
 // DELETE ruta - DELETE /api/restaurants/:id
-RestaurantRoute.delete(
-  "/restaurants/:id",
-  async (req: Request, res: Response) => {
-    try {
-      const restaurantId = req.params.id;
-      await deleteRestaurant(restaurantId);
-      res.status(204).send();
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
+RestaurantRoute.delete("/:id", async (req: Request, res: Response) => {
+  try {
+    const restaurantId = req.params.id;
+    await deleteRestaurant(restaurantId);
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-);
+});
 
 export default RestaurantRoute;
