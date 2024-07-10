@@ -17,6 +17,12 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use((0, morgan_1.default)("tiny"));
 (0, dotenv_1.configDotenv)();
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*"); // Replace '*' with specific origin if possible
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+});
 app.use(utils_1.authenticateToken);
 app.use("/api/restaurant", restaurant_route_1.default);
 app.use("/api/user", user_route_1.UserRoute);
